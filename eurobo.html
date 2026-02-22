@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eurobot 2026 Score</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(180deg,#020617,#07102a);
+    color:white;
+}
+
+header{
+    text-align:center;
+    padding:18px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.container{
+    padding:15px;
+    max-width:600px;
+    margin:auto;
+}
+
+.team{
+    border-radius:16px;
+    padding:15px;
+    margin-bottom:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,.4);
+}
+
+.yellow{
+    background:linear-gradient(135deg,#ffd54f,#f59e0b);
+    color:#111;
+}
+
+.blue{
+    background:linear-gradient(135deg,#38bdf8,#2563eb);
+}
+
+.team h2{
+    text-align:center;
+    margin-top:0;
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:8px 0;
+}
+
+.control{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.control button{
+    width:32px;
+    height:32px;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.yellow button{ background:#111; color:#ffd54f;}
+.blue button{ background:white; color:#2563eb;}
+
+.value{
+    width:30px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.score{
+    font-size:28px;
+    text-align:center;
+    margin-top:10px;
+    font-weight:bold;
+}
+
+#winner{
+    text-align:center;
+    font-size:26px;
+    margin-top:10px;
+    font-weight:bold;
+}
+
+.common{
+    background:#111827;
+    padding:12px;
+    border-radius:14px;
+}
+
+/* TIMER */
+.timerBox{
+    text-align:center;
+    margin-top:20px;
+}
+
+#timer{
+    font-size:36px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.timerBox button{
+    padding:8px 16px;
+    border-radius:10px;
+    border:none;
+    font-size:16px;
+    cursor:pointer;
+    margin:4px;
+}
+
+/* SIGNATURE */
+.signature{
+    text-align:center;
+    margin-top:30px;
+    font-size:12px;
+    opacity:0.25;
+    letter-spacing:2px;
+    transition:0.3s;
+}
+
+.signature:hover{
+    opacity:0.6;
+}
+</style>
+</head>
+
+<body>
+
+<header>EUROBOT 2026 SCORE</header>
+
+<div class="container">
+
+<div class="team yellow">
+<h2>ÉQUIPE JAUNE</h2>
+<div id="yellowFields"></div>
+<div class="score">Score: <span id="scoreY">0</span></div>
+</div>
+
+<div class="team blue">
+<h2>ÉQUIPE BLEUE</h2>
+<div id="blueFields"></div>
+<div class="score">Score: <span id="scoreB">0</span></div>
+</div>
+
+<div class="common">
+<h3>Action commune (ajoutée aux deux équipes)</h3>
+<div id="commonFields"></div>
+</div>
+
+<!-- TIMER -->
+<div class="timerBox">
+    <div id="timer">0</div>
+    <button onclick="startTimer()">▶ START MATCH</button>
+    <button onclick="resetTimer()">⟳ RESET</button>
+</div>
+
+<div id="winner"></div>
+
+</div>
+
+<!-- Signature -->
+<div class="signature">
+    created by Acer Jemli
+</div>
+
+<script>
+const fields = [
+    {id:"nid", label:"Nid (2 pts)", pts:2},
+    {id:"gm", label:"Garde-manger (3 pts)", pts:3},
+    {id:"bonus", label:"Zones bonus (5 pts)", pts:5},
+    {id:"cursor", label:"Curseur X (1 pt)", pts:1},
+    {id:"occ", label:"Garde-manger occupé (5 pts)", pts:5}
+];
+
+const checkFields = [
+    {id:"part", label:"Robot partiel (+5)", pts:5},
+    {id:"comp", label:"Robot complet (+5)", pts:5},
+    {id:"pami", label:"PAMI (+10)", pts:10}
+];
+
+const commonFields = [
+    {id:"frigoV", label:"Frigos vides (2 pts)", pts:2},
+    {id:"frigoP", label:"Frigos pleins (5 pts)", pts:5}
+];
+
+function createControls(container, prefix){
+    fields.forEach(f=>{
+        container.innerHTML += `
+        <div class="row">
+            ${f.label}
+            <div class="control">
+                <button onclick="change('${prefix}_${f.id}',-1)">-</button>
+                <div class="value" id="${prefix}_${f.id}">0</div>
+                <button onclick="change('${prefix}_${f.id}',1)">+</button>
+            </div>
+        </div>`;
+    });
+
+    checkFields.forEach(f=>{
+        container.innerHTML += `
+        <div class="row">
+            ${f.label}
+            <button onclick="toggle('${prefix}_${f.id}')">+/-</button>
+            <div class="value" id="${prefix}_${f.id}">0</div>
+        </div>`;
+    });
+}
+
+function createCommon(container){
+    commonFields.forEach(f=>{
+        container.innerHTML += `
+        <div class="row">
+            ${f.label}
+            <div class="control">
+                <button onclick="change('${f.id}',-1)">-</button>
+                <div class="value" id="${f.id}">0</div>
+                <button onclick="change('${f.id}',1)">+</button>
+            </div>
+        </div>`;
+    });
+}
+
+createControls(document.getElementById("yellowFields"),"y");
+createControls(document.getElementById("blueFields"),"b");
+createCommon(document.getElementById("commonFields"));
+
+function change(id,delta){
+    let el=document.getElementById(id);
+    let v=parseInt(el.innerText);
+    v+=delta;
+    if(v<0) v=0;
+    el.innerText=v;
+    calc();
+}
+
+function toggle(id){
+    let el=document.getElementById(id);
+    el.innerText = el.innerText=="0" ? "1" : "0";
+    calc();
+}
+
+function teamScore(prefix){
+    let s=0;
+
+    fields.forEach(f=>{
+        s += parseInt(document.getElementById(prefix+"_"+f.id).innerText)*f.pts;
+    });
+
+    checkFields.forEach(f=>{
+        if(parseInt(document.getElementById(prefix+"_"+f.id).innerText)==1)
+            s+=f.pts;
+    });
+
+    let common=0;
+    commonFields.forEach(f=>{
+        common+=parseInt(document.getElementById(f.id).innerText)*f.pts;
+    });
+
+    return s+common;
+}
+
+function calc(){
+    let y=teamScore("y");
+    let b=teamScore("b");
+
+    document.getElementById("scoreY").innerText=y;
+    document.getElementById("scoreB").innerText=b;
+
+    if(y>b) document.getElementById("winner").innerText="Victoire JAUNE 🟡";
+    else if(b>y) document.getElementById("winner").innerText="Victoire BLEUE 🔵";
+    else document.getElementById("winner").innerText="ÉGALITÉ";
+}
+
+/* TIMER 0 → 100 */
+
+let time = 0;
+let timerInterval = null;
+
+function startTimer(){
+    if(timerInterval !== null) return;
+
+    timerInterval = setInterval(()=>{
+        time++;
+        document.getElementById("timer").innerText = time;
+
+        if(time >= 100){
+            clearInterval(timerInterval);
+            timerInterval = null;
+            document.getElementById("timer").innerText = "FIN ⏰";
+        }
+    },1000);
+}
+
+function resetTimer(){
+    clearInterval(timerInterval);
+    timerInterval = null;
+    time = 0;
+    document.getElementById("timer").innerText = time;
+}
+</script>
+
+</body>
+</html>
