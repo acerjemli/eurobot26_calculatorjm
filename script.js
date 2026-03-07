@@ -115,7 +115,7 @@ function startTimer(){
         time++;
         document.getElementById("timer").innerText = time;
         if(time === 85){
-            document.getElementById("winner").innerText = "⚡ Lancez PAMI !";
+            document.getElementById("timer").innerText = "⚡ Lancez PAMI !";
         }
         if(time >= 100){
             clearInterval(timerInterval);
