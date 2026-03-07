@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eurobot 2026 Score</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <div id="timer">0</div>
+    <div style="font-size:22px;">EUROBOT 2026 SCORE</div>
+    <div>
+        <button onclick="startTimer()">▶ START</button>
+        <button onclick="resetTimer()">⟳ RESET</button>
+    </div>
+</header>
+
+<div class="container">
+
+<div class="team yellow">
+<h2>ÉQUIPE JAUNE</h2>
+<div id="yellowFields"></div>
+<div class="score">Score: <span id="scoreY">0</span></div>
+</div>
+
+<div class="team blue">
+<h2>ÉQUIPE BLEUE</h2>
+<div id="blueFields"></div>
+<div class="score">Score: <span id="scoreB">0</span></div>
+</div>
+
+<div class="common">
+<h3>Action commune (ajoutée aux deux équipes)</h3>
+<div id="commonFields"></div>
+</div>
+
+<div id="winner"></div>
+
+</div>
+
+<div class="signature">
+created by Acer Jemli
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
