@@ -1,0 +1,120 @@
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(180deg,#020617,#07102a);
+    color:white;
+}
+
+header{
+    text-align:center;
+    padding:18px;
+    font-weight:bold;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+}
+
+.container{
+    padding:15px;
+    max-width:600px;
+    margin:auto;
+}
+
+.team{
+    border-radius:16px;
+    padding:15px;
+    margin-bottom:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,.4);
+}
+
+.yellow{
+    background:linear-gradient(135deg,#ffd54f,#f59e0b);
+    color:#111;
+}
+
+.blue{
+    background:linear-gradient(135deg,#38bdf8,#2563eb);
+}
+
+.team h2{
+    text-align:center;
+    margin-top:0;
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:8px 0;
+}
+
+.control{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.control button{
+    width:32px;
+    height:32px;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.yellow button{ background:#111; color:#ffd54f;}
+.blue button{ background:white; color:#2563eb;}
+
+.value{
+    width:30px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.score{
+    font-size:28px;
+    text-align:center;
+    margin-top:10px;
+    font-weight:bold;
+}
+
+#winner{
+    text-align:center;
+    font-size:26px;
+    margin-top:10px;
+    font-weight:bold;
+}
+
+.common{
+    background:#111827;
+    padding:12px;
+    border-radius:14px;
+}
+
+#timer{
+    font-size:36px;
+    font-weight:bold;
+}
+
+header button{
+    padding:6px 14px;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+}
+
+.signature{
+    text-align:center;
+    margin-top:30px;
+    font-size:12px;
+    opacity:0.25;
+    letter-spacing:2px;
+    transition:0.3s;
+}
+
+.signature:hover{
+    opacity:0.6;
+}
