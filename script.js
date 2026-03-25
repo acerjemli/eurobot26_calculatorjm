@@ -8,7 +8,7 @@ const fields = [
 
 const checkFields = [
     {id:"part", label:"Robot partiel (+5)", pts:5},
-    {id:"comp", label:"Robot complet (+5)", pts:5},
+    {id:"comp", label:"Robot complet (+10)", pts:10},
     {id:"pami", label:"PAMI (+10)", pts:10}
 ];
 
